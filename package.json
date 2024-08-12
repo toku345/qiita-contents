@@ -1,7 +1,7 @@
 {
   "devDependencies": {
     "@qiita/qiita-cli": "^1.4.3",
-    "textlint": "^14.0.4",
+    "textlint": "^14.0.5",
     "textlint-rule-preset-ja-spacing": "^2.4.3",
     "textlint-rule-preset-ja-technical-writing": "^10.0.1"
   }
