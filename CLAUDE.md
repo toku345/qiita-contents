@@ -1,10 +1,10 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for Claude Code (claude.ai/code) working in this repository.
 
 ## Overview
 
-Qiita記事を管理するリポジトリ。[Qiita CLI](https://github.com/increments/qiita-cli)を使用して記事の作成・プレビュー・公開を行う。
+Qiita記事を管理するリポジトリ。[Qiita CLI](https://github.com/increments/qiita-cli)を使用して記事を作成・プレビュー・公開する。
 
 ## Commands
 
@@ -36,7 +36,7 @@ public/
 
 ### 記事ファイル構造
 
-各記事はYAMLフロントマッターを持つMarkdown:
+各記事はYAMLフロントマッターを持つMarkdownファイル。
 
 ```yaml
 ---
@@ -77,7 +77,7 @@ Qiita記事向けにカスタマイズ済み（行長制限無効、HTML要素�
 
 ## Claude Code Commands
 
-このリポジトリには専用のスラッシュコマンドが定義されている:
+このリポジトリには専用のスラッシュコマンドが定義されている。
 
 | コマンド | 説明 |
 |---------|------|
