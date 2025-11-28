@@ -1,0 +1,63 @@
+# qiita-contents
+
+[Qiita CLI](https://github.com/increments/qiita-cli)を使用したQiita記事管理リポジトリ。
+
+## セットアップ
+
+```bash
+npm install
+```
+
+## 使い方
+
+### 記事の新規作成
+
+```bash
+npx qiita new <basename>
+```
+
+生成されたファイルの `private: false` を `private: true` に変更してから執筆を開始してください。
+
+### ローカルプレビュー
+
+```bash
+npx qiita preview
+```
+
+http://localhost:8888 でプレビューを確認できます。
+
+### 校正
+
+```bash
+# すべてのLintを実行
+npm run lint
+
+# 自動修正
+npm run lint:fix
+```
+
+## ディレクトリ構成
+
+```
+public/
+├── .remote/    # Qiita CLIが管理（編集禁止）
+└── *.md        # 記事ファイル
+```
+
+## 公開
+
+mainブランチへのpushでGitHub Actionsにより自動公開されます。
+
+リポジトリのSecretsに`QIITA_TOKEN`の設定が必要です。
+
+## Lint ルール
+
+| ツール | 設定ファイル | 用途 |
+|--------|-------------|------|
+| textlint | `.textlintrc.json` | 日本語校正 |
+| markdownlint | `.markdownlint-cli2.jsonc` | Markdown構文チェック |
+| markdown-link-check | - | リンク切れ検出 |
+
+## License
+
+記事の著作権は著者に帰属します。
