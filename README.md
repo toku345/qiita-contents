@@ -86,4 +86,5 @@ mainブランチへのpushでGitHub Actionsにより自動公開されます。
 
 ## License
 
-記事の著作権は著者に帰属します。
+- 設定ファイル・ワークフロー等: [MIT License](./LICENSE)
+- `public/`配下の記事: 著作権は著者に帰属（All Rights Reserved）
