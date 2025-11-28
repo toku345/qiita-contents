@@ -1,6 +1,17 @@
 {
+  "scripts": {
+    "lint": "npm run lint:text && npm run lint:md && npm run lint:links",
+    "lint:text": "textlint 'public/**/*.md'",
+    "lint:md": "markdownlint-cli2 'public/**/*.md'",
+    "lint:links": "find public -name '*.md' -not -path 'public/.remote/*' | grep -v -f .textlintignore | xargs -P 4 -I {} markdown-link-check {}",
+    "lint:fix": "npm run lint:text:fix && npm run lint:md:fix",
+    "lint:text:fix": "textlint --fix 'public/**/*.md'",
+    "lint:md:fix": "markdownlint-cli2 --fix 'public/**/*.md'"
+  },
   "devDependencies": {
     "@qiita/qiita-cli": "^1.6.2",
+    "markdown-link-check": "^3.12.2",
+    "markdownlint-cli2": "^0.14.0",
     "textlint": "^15.4.0",
     "textlint-rule-preset-ja-spacing": "^2.4.3",
     "textlint-rule-preset-ja-technical-writing": "^12.0.2"

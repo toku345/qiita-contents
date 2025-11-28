@@ -1,0 +1,39 @@
+{
+  // markdownlint configuration for Qiita articles
+  "config": {
+    "default": true,
+    // 日本語記事では行長制限が不適切
+    "MD013": false,
+    // Qiita で使用する HTML 要素を許可
+    "MD033": {
+      "allowed_elements": ["details", "summary", "br", "blockquote", "p", "a", "script"]
+    },
+    // YAML front matter があるため
+    "MD041": false,
+    // Qiita 記事では複数の h1 を使うことがある
+    "MD025": false,
+    // 日本語の句読点を許可
+    "MD026": false,
+    // コマンド例の $ を許可
+    "MD014": false,
+    // 裸の URL を許可
+    "MD034": false,
+    // コードブロックの言語指定は必須としない
+    "MD040": false,
+    // 強調を見出しとして使用を許可
+    "MD036": false,
+    // 見出しレベルのスキップを許可
+    "MD001": false,
+    // 重複見出しを許可
+    "MD024": false,
+    // 順序付きリストのプレフィックススタイルを許可
+    "MD029": false,
+    // リンクテキスト内のスペースを許可
+    "MD039": false
+  },
+  // 除外パターン
+  "ignores": [
+    "public/.remote/**",
+    "node_modules/**"
+  ]
+}
