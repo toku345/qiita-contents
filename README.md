@@ -48,7 +48,12 @@ public/
 
 mainブランチへのpushでGitHub Actionsにより自動公開されます。
 
-リポジトリのSecretsに`QIITA_TOKEN`の設定が必要です。
+### QIITA_TOKENの設定
+
+1. [Qiitaの設定画面](https://qiita.com/settings/tokens/new)でアクセストークンを発行（`read_qiita`と`write_qiita`スコープが必要）
+2. GitHubリポジトリのSettings → Secrets and variables → Actionsを開く
+3. 「New repository secret」をクリック
+4. Name: `QIITA_TOKEN`、Secret: 発行したトークンを入力して保存
 
 ## Lint ルール
 
