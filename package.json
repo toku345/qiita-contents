@@ -1,4 +1,5 @@
 {
+  "name": "qiita-contents",
   "engines": {
     "node": ">=20"
   },
