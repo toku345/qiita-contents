@@ -8,7 +8,7 @@ Qiita CLI のプレビュー機能を起動します。
 ## 処理
 
 1. `npx qiita preview` をバックグラウンドで実行
-2. http://localhost:8888 でアクセス可能になることを通知
+2. [http://localhost:8888](http://localhost:8888) でアクセス可能になることを通知
 3. 停止方法を案内
 
 ## 備考
