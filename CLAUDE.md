@@ -53,25 +53,30 @@ id: <qiita-article-id>
 ## Workflow
 
 ### 記事作成
+
 1. `npx qiita new <basename>` で雛形生成
 2. **必ず `private: true` に変更してから執筆開始**（デフォルトは`false`）
 3. `npx qiita preview` で確認
 4. `npm run lint:fix` で校正
 
 ### 公開フロー
+
 - mainブランチへのpushで自動公開（`.github/workflows/publish.yml`）
 - `QIITA_TOKEN` シークレットが必要
 
 ## Linting Rules
 
 ### textlint (`.textlintrc.json`)
+
 - `preset-ja-spacing`: 日本語スペーシング
 - `preset-ja-technical-writing`: 技術文書向けルール
 
 ### markdownlint (`.markdownlint-cli2.jsonc`)
+
 Qiita記事向けにカスタマイズ済み（行長制限無効、HTML要素許可など）
 
 ### 除外対象 (`.textlintignore`)
+
 - `public/.remote/**`
 - 一部の既存記事（レガシー）
 
