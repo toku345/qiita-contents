@@ -1,2 +1,13 @@
 .remote
 node_modules
+
+# Environment files
+.env*
+.envrc
+
+# Certificates and keys
+*.pem
+*.key
+
+# OS files
+.DS_Store
