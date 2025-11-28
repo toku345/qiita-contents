@@ -1,4 +1,7 @@
 {
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "lint": "npm run lint:text && npm run lint:md && npm run lint:links",
     "lint:text": "textlint 'public/**/*.md'",
