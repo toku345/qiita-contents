@@ -58,6 +58,27 @@ mainブランチへのpushでGitHub Actionsにより自動公開されます。
 | markdownlint | `.markdownlint-cli2.jsonc` | Markdown構文チェック |
 | markdown-link-check | - | リンク切れ検出 |
 
+## Claude Code
+
+[Claude Code](https://claude.ai/code)向けの専用コマンドとスキルが定義されている。
+
+### スラッシュコマンド
+
+| コマンド | 説明 |
+|---------|------|
+| `/qiita-new <basename>` | 新規記事作成（自動で`private: true`に設定） |
+| `/qiita-preview` | ローカルプレビューサーバー起動 |
+| `/qiita-lint [file]` | textlintによる日本語校正 |
+| `/qiita-toggle-private <file>` | 公開/限定共有の切り替え |
+
+### スキル
+
+| スキル | 説明 |
+|--------|------|
+| `qiita-guidelines` | 記事作成時にQiitaガイドラインを参照 |
+
+詳細は[CLAUDE.md](./CLAUDE.md)を参照。
+
 ## License
 
 記事の著作権は著者に帰属します。
