@@ -90,6 +90,9 @@ Qiita記事向けにカスタマイズ済み（行長制限無効、HTML要素�
 | `/qiita-preview` | ローカルプレビューサーバー起動 |
 | `/qiita-lint [file]` | textlintによる日本語校正 |
 | `/qiita-toggle-private <file>` | 公開/限定共有の切り替え（確認必須） |
+| `/qiita-review <file>` | 記事品質レビュー（Subagent使用） |
+| `/qiita-compose <theme>` | 記事構成案の生成（Subagent使用） |
+| `/qiita-preflight <file>` | 公開前チェック（Subagent使用） |
 
 ## Claude Code Skills
 
@@ -98,6 +101,24 @@ Qiita記事向けにカスタマイズ済み（行長制限無効、HTML要素�
 | `qiita-guidelines` | 記事作成時にQiitaコミュニティガイドラインと品質要件を参照 |
 
 記事執筆・レビュー・公開準備時に自動適用される。
+
+## Claude Code Subagents
+
+専門的なタスクを実行するサブエージェントが定義されている。
+
+| Subagent | 用途 | コマンド |
+|----------|------|----------|
+| `article-reviewer` | 記事品質レビュー | `/qiita-review <file>` |
+| `article-composer` | 記事構成支援 | `/qiita-compose <theme>` |
+| `publish-checker` | 公開前チェック | `/qiita-preflight <file>` |
+
+### 起動条件
+
+自然言語での依頼時も適切なサブエージェントを使用すること：
+
+- 「記事をレビューして」「品質チェック」→ `article-reviewer` を使用
+- 「構成を考えて」「アウトラインを作成」→ `article-composer` を使用
+- 「公開前チェック」「公開準備」→ `publish-checker` を使用
 
 ## Key Constraints
 
