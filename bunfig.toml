@@ -1,0 +1,5 @@
+[install]
+# Security: Require packages to be published for at least 3 days before installation
+# This helps protect against supply chain attacks
+# 3 days = 3 * 24 * 60 * 60 = 259200 seconds
+minimumReleaseAge = 259200
