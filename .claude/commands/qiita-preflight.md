@@ -13,8 +13,8 @@ Qiita記事の公開前チェックを実行します。
 
 1. 引数が未指定の場合、`public/` 配下の記事一覧を表示して選択を促す
 2. `publish-checker` エージェントを起動し、以下を実行：
-   - `npm run lint` で全Lintチェック
-   - `npm run lint:links` でリンク切れチェック
+   - `bun run lint` で全Lintチェック
+   - `bun run lint:links` でリンク切れチェック
    - 禁止事項チェック（著作権、NDA、個人情報等）
    - メタデータ確認（private フィールド、タイトル、タグ）
 3. チェック結果をサマリー形式で報告
