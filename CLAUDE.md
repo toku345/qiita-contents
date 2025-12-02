@@ -10,20 +10,20 @@ Qiita記事を管理するリポジトリ。[Qiita CLI](https://github.com/incre
 
 ```bash
 # Linting
-npm run lint           # textlint + markdownlint + link-check すべて実行
-npm run lint:text      # textlint のみ
-npm run lint:md        # markdownlint のみ
-npm run lint:links     # リンク切れチェック
+bun run lint           # textlint + markdownlint + link-check すべて実行
+bun run lint:text      # textlint のみ
+bun run lint:md        # markdownlint のみ
+bun run lint:links     # リンク切れチェック
 
 # Auto-fix
-npm run lint:fix       # textlint + markdownlint 自動修正
-npm run lint:text:fix  # textlint 自動修正
-npm run lint:md:fix    # markdownlint 自動修正
+bun run lint:fix       # textlint + markdownlint 自動修正
+bun run lint:text:fix  # textlint 自動修正
+bun run lint:md:fix    # markdownlint 自動修正
 
 # Qiita CLI
-npx qiita new <basename>  # 新規記事作成
-npx qiita preview         # ローカルプレビュー (port: 8888)
-npx qiita publish         # 記事公開（CI経由推奨）
+bunx qiita new <basename>  # 新規記事作成
+bunx qiita preview         # ローカルプレビュー (port: 8888)
+bunx qiita publish         # 記事公開（CI経由推奨）
 ```
 
 ## Architecture
@@ -54,10 +54,10 @@ id: <qiita-article-id>
 
 ### 記事作成
 
-1. `npx qiita new <basename>` で雛形生成
+1. `bunx qiita new <basename>` で雛形生成
 2. **必ず `private: true` に変更してから執筆開始**（デフォルトは`false`）
-3. `npx qiita preview` で確認
-4. `npm run lint:fix` で校正
+3. `bunx qiita preview` で確認
+4. `bun run lint:fix` で校正
 
 ### 公開フロー
 

@@ -5,7 +5,7 @@
 ## セットアップ
 
 ```bash
-npm install
+bun install
 ```
 
 ## 使い方
@@ -13,7 +13,7 @@ npm install
 ### 記事の新規作成
 
 ```bash
-npx qiita new <basename>
+bunx qiita new <basename>
 ```
 
 生成されたファイルの `private: false` を `private: true` に変更してから執筆を開始してください。
@@ -21,7 +21,7 @@ npx qiita new <basename>
 ### ローカルプレビュー
 
 ```bash
-npx qiita preview
+bunx qiita preview
 ```
 
 http://localhost:8888 でプレビューを確認できます。
@@ -30,10 +30,10 @@ http://localhost:8888 でプレビューを確認できます。
 
 ```bash
 # すべてのLintを実行
-npm run lint
+bun run lint
 
 # 自動修正
-npm run lint:fix
+bun run lint:fix
 ```
 
 ## ディレクトリ構成
