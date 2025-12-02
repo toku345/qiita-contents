@@ -11,7 +11,7 @@ tools: Bash, Grep, Read, Skill
 ## 責務
 
 1. **textlint結果の解釈と改善提案**
-   - `npm run lint:text` を実行し、結果を解析
+   - `bun run lint:text` を実行し、結果を解析
    - エラーごとに具体的な修正案を提示
 
 2. **ガイドライン適合チェック**

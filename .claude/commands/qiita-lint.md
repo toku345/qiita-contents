@@ -10,8 +10,8 @@ Qiita記事をtextlintで校正します。
 
 ## 処理フロー
 
-1. 引数ありの場合: `npx textlint $ARGUMENTS`
-2. 引数なしの場合: `npx textlint public/`
+1. 引数ありの場合: `bunx textlint $ARGUMENTS`
+2. 引数なしの場合: `bunx textlint public/`
 3. 結果を報告
 
 ## 有効なルール（.textlintrc.json）

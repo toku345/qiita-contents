@@ -13,7 +13,7 @@ Qiita記事の品質レビューを実行します。
 
 1. 引数が未指定の場合、`public/` 配下の記事一覧を表示して選択を促す
 2. `article-reviewer` エージェントを起動し、以下を実行：
-   - `npm run lint:text` でtextlintチェック
+   - `bun run lint:text` でtextlintチェック
    - `qiita-guidelines` スキルを参照してガイドライン適合チェック
    - タイトル・見出し構造の妥当性確認
    - タグ選定の適切性評価

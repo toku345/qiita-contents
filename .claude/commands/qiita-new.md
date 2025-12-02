@@ -11,7 +11,7 @@ allowed-tools: Bash, Read, Edit
 ## 処理フロー
 
 1. basename が未指定の場合、ユーザーに確認
-2. `npx qiita new $ARGUMENTS` を実行
+2. `bunx qiita new $ARGUMENTS` を実行
 3. 生成された `public/$ARGUMENTS.md` を読み込み
 4. フロントマッターの `private: false` を `private: true` に変更
 5. 作成完了を報告
