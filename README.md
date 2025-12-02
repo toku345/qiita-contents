@@ -84,6 +84,39 @@ mainブランチへのpushでGitHub Actionsにより自動公開されます。
 
 詳細は[CLAUDE.md](./CLAUDE.md)を参照。
 
+### 記事作成ワークフロー（Claude Code）
+
+command、subagent、skillを組み合わせた記事作成〜公開フロー：
+
+```
+企画・構成
+│  /qiita-compose <テーマ> → article-composer
+↓
+新規作成
+│  /qiita-new <basename>（自動で private: true）
+↓
+執筆
+│  qiita-guidelines skill 参照
+↓
+プレビュー
+│  /qiita-preview → http://localhost:8888
+↓
+校正
+│  /qiita-lint [file]
+↓
+レビュー
+│  /qiita-review <file> → article-reviewer
+↓
+公開前チェック
+│  /qiita-preflight <file> → publish-checker
+↓
+公開設定変更
+│  /qiita-toggle-private <file>（確認必須）
+↓
+公開
+   mainブランチへpush → GitHub Actions
+```
+
 ## License
 
 - 設定ファイル・ワークフロー等: [MIT License](./LICENSE)
