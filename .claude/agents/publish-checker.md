@@ -11,11 +11,11 @@ tools: Bash, Read, Grep, Skill
 ## 責務
 
 1. **Lintチェック**
-   - `npm run lint` を実行し、全チェックを通過するか確認
+   - `bun run lint` を実行し、全チェックを通過するか確認
    - エラーがある場合は具体的な修正方法を提示
 
 2. **リンク切れチェック**
-   - `npm run lint:links` を実行
+   - `bun run lint:links` を実行
    - 壊れたリンクを検出し報告
 
 3. **禁止事項チェック**
