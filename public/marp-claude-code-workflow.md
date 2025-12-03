@@ -9,75 +9,40 @@ tags:
 private: true
 updated_at: ''
 id: null
-organization_url_name: null
+organization_url_name:
 slide: false
 ignorePublish: false
 ---
 # はじめに
 
-## 従来のスライド作成の課題
+プレゼン資料を作成する際、以下のような課題に直面することが多いのではないでしょうか。
 
-エンジニアがプレゼン資料を作成する際、以下のような課題に直面することが多いのではないでしょうか。
+- **PowerPointを開くのが億劫**: terminalやエディタから離れる必要がある
+- **操作方法を覚えるのが大変**: 多機能ゆえに使いこなせない
+- **デザイン調整に時間を取られる**: コンテンツよりも見た目の調整に時間を取られる
+- **差分管理が難しい**: 前のバージョンとの比較が困難
 
-- **PowerPointでのデザイン調整が煩雑**: コンテンツよりも見た目の調整に時間を取られる
-- **バージョン管理が困難**: バイナリ形式のためGit管理に不向き、差分が追えない
-- **コードブロックの扱いが面倒**: シンタックスハイライトの設定に手間がかかる
+これらの課題を解決するツールとしてmarkdown形式のテキストファイルでスライドを作成可能な **Marp** があります。
 
-これらの課題を解決するツールとして **Marp** がありますが、さらに **Claude Code** と組み合わせることで、「自然言語での指示だけでスライド作成が完結する」ワークフローを構築できます。
+さらに **Claude Code** と組み合わせることで、「自然言語での指示だけでスライド作成が完結する」ワークフローを構築できます。
 
 ## この記事で実現すること
 
-本記事では、私が構築した [marp-slides リポジトリ](https://github.com/toku345/marp-slides) を例に、以下を解説します。
+本記事では、私が構築した [marp-slides リポジトリ](https://github.com/toku345/marp-slides) を例に、「自然言語での指示だけでスライド作成が完結する」ワークフローを紹介します。
 
 | 従来の作業 | 自然言語での指示 |
 |-----------|-----------------|
-| ファイル作成・テンプレート記述 | 「テーマ名についてスライドを作成して」 |
-| lint実行・目視チェック | 「スライドをレビューして」 |
+| ファイル作成・スライドの中身を記述 | 「<テーマ名>についてスライドを作成して」 |
+| 目視チェック | 「スライドをレビューして」 |
 | ビルドコマンド実行 | 「PDFに出力して」 |
 
-コマンドを覚える必要なく、**意図を伝えるだけ**で作業が完了します。
+Claude Codeと組み合わせることでMarpのコマンド・ルールを覚える必要なく、**意図を伝えるだけ**で作業が完了します。
 
 ## 想定読者
 
 - Claude Codeの基本操作を理解している開発者
-- スライド作成の効率化に関心があるエンジニア
+- スライド作成の効率化に関心がある方
 - Skills / Subagentsの実践的な活用例を探している方
-
-# 環境情報
-
-| ソフトウェア | バージョン |
-|-------------|-----------|
-| OS          | macOS 14.x |
-| Bun         | 1.3.2 |
-| @marp-team/marp-cli | 3.4.0 |
-| Claude Code | latest |
-| Playwright MCP | - |
-
-※ Playwright MCPは視覚的に検証する場合に必要です。
-
-## セットアップ手順
-
-### 前提条件
-
-- Node.js 18.x以上、またはBun 1.3.x以上
-- Claude Codeがインストール済み
-
-### リポジトリの準備
-
-```bash
-# リポジトリをクローン
-git clone https://github.com/toku345/marp-slides.git
-cd marp-slides
-
-# 依存関係をインストール
-bun install
-
-# プレビューサーバーを起動して動作確認
-bun run preview
-# → http://localhost:8080 でスライドを確認
-```
-
-これで基本的なセットアップは完了です。Claude Codeを起動すれば、自然言語での操作が可能になります。
 
 # Marpとは
 
@@ -85,7 +50,13 @@ bun run preview
 
 ## 基本的な仕組み
 
-```markdown
+以下のようなフォーマットのMarkdownファイルを作成することでスライドを定義します。
+
+- `---` で区切るだけでスライドが分割される
+- テキストエディタで完結するため、IDEから離れる必要がない
+- テキストベースのため、Gitでの差分管理やCI/CD連携も容易
+
+```markdown:slides.md
 ---
 marp: true
 theme: default
@@ -102,374 +73,167 @@ paginate: true
 - コードブロックも対応
 ```
 
-`---` で区切るだけでスライドが分割されます。テキストエディタで完結するため、IDEから離れる必要がありません。
-
-## Git完全対応
-
-テキストベースのため、以下のメリットがあります。
-
-- **差分が可視化される**: 何を変更したか一目瞭然
-- **ブランチ戦略が適用可能**: feature branchでスライドを作成、レビュー後にマージ
-- **CI/CD連携**: push時に自動ビルド・デプロイ
-
-## 3種類の組み込みテーマ
-
-| テーマ | 特徴 |
-|-------|------|
-| `default` | シンプルでビジネス向け |
-| `gaia` | 視覚的に華やかなプレゼン向け |
-| `uncover` | モダンでミニマルなデザイン |
-
-# リポジトリ構造
-
-今回構築した [marp-slides](https://github.com/toku345/marp-slides) リポジトリの構造を紹介します。
-
-```
-marp-slides/
-├── slides/              # Markdownスライドファイル
-│   └── images/          # スライド用画像
-├── themes/              # カスタムCSSテーマ
-├── dist/                # ビルド出力（HTML/PDF/PPTX）
-└── .claude/
-    ├── agents/          # Subagent定義
-    │   ├── slide-builder.md
-    │   ├── slide-creator.md
-    │   └── slide-reviewer.md
-    └── skills/marp/     # Marpスキル
-        └── skill.md
+```console
+# Marp CLIでのPDF出力例
+$ npx @marp-team/marp-cli slides.md --pdf --output dist/slides.pdf
 ```
 
-## ディレクトリの役割
+# Claude Code Agent skills の導入
 
-| ディレクトリ | 説明 |
-|-------------|------|
-| `slides/` | スライドの執筆場所。画像は `images/` 配下に配置 |
-| `themes/` | カスタムCSSでデザインを拡張 |
-| `dist/` | ビルド成果物（`.gitignore` で除外推奨） |
-| `.claude/agents/` | Subagent定義ファイル |
-| `.claude/skills/marp/` | Marp構文リファレンス |
+## Agent skills とは
 
-# Claude Code Skill の導入
+Claude CodeのAgent skillsは、特定ドメインの知識をClaudeに提供する仕組みです。
+`.claude/skills/<name>/skill.md` に配置することで、Claudeはその内容を参照しながら作業できます。
 
-## Skill とは
+## marp スキルの定義例
 
-Claude CodeのSkillは、特定ドメインの知識をClaudeに提供する仕組みです。`.claude/skills/<name>/skill.md` に配置することで、Claudeがその内容を参照しながら作業します。
+```markdown:.claude/skills/marp/skill.md（抜粋）
+# Marp Skill
+
+## スライド区切り
+`---` でスライドを分割
+
+## ディレクティブ
+- `marp: true` - Marp有効化（必須）
+- `theme: default` - テーマ指定（default / gaia / uncover）
+- `paginate: true` - ページ番号表示
+
+## 1スライドあたりの推奨量
+- 箇条書き: 5〜7項目以内
+- コードブロック: 15行以内
+
+## よくある問題
+- 画像が表示されない → `./images/filename.png` と相対パスで指定
+```
 
 ## marp スキルの役割
 
-今回作成した `marp` スキルには以下が含まれています。
+marp-slidesリポジトリでは以下のmarpスキルを定義しています。
 
-- **Marp構文リファレンス**: Front Matter、ディレクティブ、スライド分割
-- **テーマ・レイアウト**: `lead` / `invert` クラス、背景画像設定
-- **画像配置**: 通常画像、背景画像、マルチカラムレイアウト
-- **数式サポート**: KaTeXによる数式表示
-- **トラブルシューティング**: よくある問題と解決策
+| スキル | 役割 |
+|-------------|------|
+| [marp](https://github.com/toku345/marp-slides/blob/1df21c565704d95d4957bbff8a46f3c1f1576665/.claude/skills/marp/skill.md) | Marp構文やベストプラクティスの情報を提供 |
 
-## 効果
-
-Skillを導入することで、以下が実現します。
-
-- Marp構文を正確に生成（間違った構文を出力しない）
-- レイアウト崩れを防止する適切なコンテンツ量の提案
-- プロジェクト固有の規約（画像配置場所など）の遵守
+ここにMarpの基本ルールやベストプラクティスをまとめ、その情報を提供することで、Claudeは正しいMarp構文を生成したり、適切なコンテンツ量のスライドを作成することが可能になります。
 
 # Subagents によるワークフロー自動化
 
-Claude CodeのSubagentは、特定のタスクに特化したエージェントです。自然言語でトリガーされ、定義された手順を自動実行します。
+Claude CodeのSubagentsは、特定のタスクに特化したエージェントです。
+`.claude/agents/<name>.md` に配置することで、自然言語でトリガーされ、定義された手順を自動実行できます。
 
-## slide-creator: スライド新規作成
+## Subagent: `slide-creator` の定義例
 
-### 役割
+```markdown:.claude/agents/slide-creator.md（抜粋）
+# slide-creator
 
-新しいスライドファイルをプロジェクト規約に沿って生成します。
+新規Marpスライドを作成するSubagent。
 
-### 自然言語での起動例
+## 起動条件
+- 「新しいスライドを作成」
+- 「〇〇についてプレゼンを作成」
 
-```
-「新しいスライドを作成して」
-「Claude Codeの活用事例についてスライドを作成」
-「gaia テーマでプレゼンを新規作成」
-```
-
-### 実行内容
-
-1. テーマの選択（default / gaia / uncover）
-2. Front Matterの自動記述
-3. タイトル・アジェンダ・まとめスライドのテンプレート生成
-4. `slides/` 配下への保存
-
-## slide-reviewer: 品質チェック
-
-### 役割
-
-作成したスライドの品質を多角的にレビューします。
-
-### 自然言語での起動例
-
-```
-「スライドをレビューして」
-「marp-tutorial.md の品質チェックをお願い」
-「プレゼン資料に問題がないか確認」
+## 実行フロー
+1. スライドタイトルをユーザーに確認
+2. テーマを選択（default / gaia / uncover）
+3. テンプレートを `slides/` に生成
+4. プレビューURLを案内
 ```
 
-### チェック項目
+「Claude Codeの活用事例についてスライドを作成して」と入力するだけで、このフローが自動実行されます。
 
-**テキストベースチェック**
+## 3つのSubagentsの役割
 
-- Front Matterの妥当性（`marp: true` の有無、テーマ名の正当性）
-- 1スライドあたりのコンテンツ量
-- 画像パスの存在確認
+marp-slidesリポジトリでは以下の3つのSubagentsを定義しています。
 
-**視覚的検証（Playwright MCP使用）**
+| Subagent | 起動例 | 役割 |
+|----------|--------|------|
+| [slide-creator](https://github.com/toku345/marp-slides/blob/1df21c565704d95d4957bbff8a46f3c1f1576665/.claude/agents/slide-creator.md) | 「スライドを作成して」 | 新規スライドをテンプレートから生成 |
+| [slide-reviewer](https://github.com/toku345/marp-slides/blob/1df21c565704d95d4957bbff8a46f3c1f1576665/.claude/agents/slide-reviewer.md) | 「レビューして」 | 構文・コンテンツ量をチェック |
+| [slide-builder](https://github.com/toku345/marp-slides/blob/1df21c565704d95d4957bbff8a46f3c1f1576665/.claude/agents/slide-builder.md) | 「PDFに出力して」 | HTML / PDF / PPTXにビルド |
 
-- レイアウト崩れの検出
-- テキストオーバーフローの検出
-- フォントサイズの一貫性
+これらのSubagentsを組み合わせることで、スライド作成からレビュー、ビルドまでの一連のワークフローを自然言語で完結させることができます。
 
-## slide-builder: マルチフォーマット出力
+# 実践例
 
-### 役割
+以下の手順で、自然言語ワークフローを体験できます。
 
-スライドをHTML / PDF / PPTXにビルドします。
+## Step 1: リポジトリを準備
 
-### 自然言語での起動例
-
-```
-「PDFに出力して」
-「スライドをビルド」
-「HTMLとPDF両方出力して」
+```bash
+git clone https://github.com/toku345/marp-slides.git
+cd marp-slides && bun install
 ```
 
-### 出力フォーマット
+## Step 2: Claude Codeを起動
 
-| 形式 | 用途 | コマンド |
-|------|------|---------|
-| HTML | Web公開、プレビュー | `bun run build` |
-| PDF | 配布、印刷 | `marp --pdf` |
-| PPTX | PowerPoint互換 | `marp --pptx` |
-
-# 実践例：自然言語でのスライド作成フロー
-
-実際のワークフローを示します。
-
-## ステップ1: 新規作成
-
-```
-ユーザー: 「Claude Codeの活用事例についてスライドを作成して」
+```bash
+claude
 ```
 
-slide-creatorが起動し、以下を実行します。
+## Step 3: スライドを作成
 
-- テーマ選択の確認
-- Front Matter生成
-- テンプレート作成
-- `slides/claude-code-examples.md` として保存
+以下のように入力してみてください。
 
-## ステップ2: コンテンツ追加
-
-```
-ユーザー: 「Subagentsの説明スライドを3枚追加して」
+```plaintext
+6歳男児へのおすすめクリスマスプレゼント2つを紹介するスライドを作成してください。
 ```
 
-marpスキルを参照しながら、適切な構文でスライドを追加します。1スライドあたりの文字量も自動調整されます。
+slide-creatorが起動し、対話形式でテーマ選択 → テンプレート生成が行われます。
 
-## ステップ3: レビュー
+## Step 4: コンテンツを追加
 
-```
-ユーザー: 「スライドをレビューして」
-```
-
-slide-reviewerが起動し、以下をチェックします。
-
-- 構文エラーの検出
-- コンテンツ量の適正判断
-- （Playwright MCP有効時）視覚的な崩れ検出
-
-レポート形式で問題点が報告されます。
-
-## ステップ4: ビルド
-
-```
-ユーザー: 「PDFに出力して」
+```plaintext
+プレゼントを1つ追加して
 ```
 
-slide-builderが起動し、`dist/` 配下にPDFを生成します。
+marpスキルを参照しながら、適切な構文・コンテンツ量でスライドが追加されます。
 
-## ポイント
+## Step 5: レビューを依頼
 
-**一度もコマンドを打っていない**点に注目してください。すべて自然言語での指示で完結しています。
-
-# Playwright MCP による視覚的検証
-
-## なぜ視覚的検証が必要か
-
-Markdownベースのスライドでも、以下の問題は実際にレンダリングしないと検出できません。
-
-- テキストがスライドからはみ出している
-- 画像とテキストが重なっている
-- フォントサイズが小さすぎて読めない
-
-## Playwright MCP の導入
-
-[Playwright MCP](https://github.com/microsoft/playwright-mcp) を設定することで、slide-reviewerが視覚的検証を行えるようになります。
-
-:::note info
-視覚的検証はオプション機能です。Playwright MCPを導入しなくても、テキストベースのレビュー（構文チェック、コンテンツ量確認など）は実行可能です。
-:::
-
-### 設定方法
-
-Claude Codeの設定ファイル（`~/.claude/claude_desktop_config.json`）に以下を追加します。
-
-```json
-{
-  "mcpServers": {
-    "playwright": {
-      "command": "npx",
-      "args": ["@anthropic-ai/mcp-server-playwright"]
-    }
-  }
-}
+```plaintext
+作成したスライドをレビューして
 ```
 
-設定後、Claude Codeを再起動すると有効になります。
+slide-reviewerが起動し、構文エラーやコンテンツ量の問題をレポートします。
 
-### 検証プロセス
+## Step 6: PDFに出力
 
-1. Marpプレビューサーバーを起動
-2. Playwrightでブラウザを起動
-3. 各スライドページを巡回
-4. スクリーンショットを撮影
-5. 視覚的な問題を検出・レポート
-
-### 検出可能な問題
-
-- **オーバーフロー**: テキストや画像がスライド領域を超えている
-- **レイアウト崩れ**: 意図しない位置に要素が配置されている
-- **表示の一貫性**: スライド間でフォントサイズや余白が不統一
-
-# カスタムテーマの作成
-
-組み込みテーマで物足りない場合、CSSでカスタムテーマを作成できます。
-
-## テーマファイルの配置
-
-```
-themes/
-└── corporate.css
+```plaintext
+PDFに出力して
 ```
 
-## テーマの適用
+slide-builderが起動し、`dist/` 配下にPDFが生成されます。
 
-```markdown
----
-marp: true
-theme: corporate
----
-```
-
-## カスタマイズ例
-
-```css
-/* @theme corporate */
-
-section {
-  background-color: #f5f5f5;
-  color: #333;
-}
-
-section.lead {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-}
-
-h1 {
-  color: #2c3e50;
-  border-bottom: 3px solid #3498db;
-}
-
-code {
-  background-color: #ecf0f1;
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-```
-
-# Tips & トラブルシューティング
-
-## 画像が表示されない
-
-**原因**: 相対パスの指定ミス。
-
-**解決策**: `slides/` からの相対パスで `./images/filename.png` と指定。
-
-```markdown
-![alt text](./images/diagram.png)
-```
-
-## レイアウトが崩れる
-
-**原因**: 1スライドあたりの文字量が多すぎる。
-
-**解決策**:
-
-- 1スライド1メッセージを心がける
-- `<!-- _class: lead -->` で中央揃えレイアウトを活用
-- 箇条書きは5項目以内に
-
-## 数式が表示されない
-
-**原因**: Front Matterに `math: katex` がない。
-
-**解決策**:
-
-```markdown
----
-marp: true
-math: katex
 ---
 
-インライン数式: $E = mc^2$
+一連の流れは以下の動画でも確認できます。
+<script src="https://asciinema.org/a/Wog3BBhxq1AxaPr0XnGQqO53X.js" id="asciicast-Wog3BBhxq1AxaPr0XnGQqO53X" async="true"></script>
 
-ブロック数式:
-$$
-\sum_{i=1}^{n} x_i = x_1 + x_2 + \cdots + x_n
-$$
-```
-
-## PDF出力でフォントが崩れる
-
-**原因**: システムフォントの問題。
-
-**解決策**: Chromiumが使用するフォントを明示的に指定。
-
-```css
-section {
-  font-family: 'Noto Sans JP', sans-serif;
-}
-```
+出来上がったスライド: [christmas-gifts](https://toku345.github.io/marp-slides/christmas-gifts.html)
 
 # まとめ
 
-## 実現できたこと
+難しく覚えづらいコマンドを打つことなく、すべて自然言語での指示でスライド作成を完結させることができました。
 
-- **自然言語指示でのスライド作成**: コマンド不要で作成・レビュー・ビルド
-- **Git完全対応のバージョン管理**: テキストベースで差分が追える
-- **品質保証の自動化**: テキストチェック + 視覚的検証
+MarpにはCSSを使ってカスタムテーマを作成する機能もあるため、さらに高度なデザイン調整も可能なので、もっと凝ったスライドも作成できます。
 
-## Claude Code Skills / Subagents 活用のポイント
+これを機に、ぜひMarp × Claude Codeの組み合わせを試してみてください。
 
-| ポイント | 説明 |
-|---------|------|
-| **専門タスクの分離** | creator / reviewer / builder と役割を明確化 |
-| **自然言語トリガー** | ユーザーの意図を汲み取って適切なエージェントを起動 |
-| **Skillとの連携** | ドメイン知識を参照しながら高精度な出力を生成 |
+## 冒頭の課題はどう解決されたか
 
-## 今後の展開
+| 課題 | Marp × Claude Code での解決 |
+|------|---------------------------|
+| PowerPointを開くのが億劫 | terminalから離れずテキストで完結 |
+| 操作方法を覚えるのが大変 | 自然言語で指示するだけ |
+| デザイン調整に時間を取られる | Marpが自動で整形 |
+| 差分管理が難しい | Git/GitHubで差分管理（[PR例](https://github.com/toku345/marp-slides/pull/16/files)） |
 
-- **CI/CD連携**: push時の自動ビルド・デプロイ
-- **チームテンプレート**: 組織共通のデザインガイドラインをSkillに組み込み
-- **他ドキュメントへの応用**: 同様の仕組みを技術文書作成にも適用
+## Agent Skills / Subagents 活用のポイント
+
+| 機能 | 役割 |
+|------|------|
+| **Agent Skills** | ドメイン知識（Marp構文など）を提供し、正確な出力を生成 |
+| **Subagents** | 専門タスク（作成・レビュー・ビルド）を自然言語でトリガー |
 
 # 参考資料
 
@@ -477,4 +241,5 @@ section {
 - [Marp CLI](https://github.com/marp-team/marp-cli)
 - [marp-slides リポジトリ](https://github.com/toku345/marp-slides)
 - [Claude Code 公式ドキュメント](https://docs.anthropic.com/en/docs/claude-code)
-- [Playwright MCP](https://github.com/anthropics/mcp-servers/tree/main/src/playwright)
+  - [Claude Code Agent skills](https://code.claude.com/docs/ja/skills)
+  - [Claude Code Subagents](https://code.claude.com/docs/ja/sub-agents)
