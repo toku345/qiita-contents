@@ -2,6 +2,7 @@
 name: article-composer
 description: テーマから記事の構成案を生成する。「構成を考えて」「アウトラインを作成」といった依頼時に使用。
 tools: Read, Grep, Skill
+skills: qiita-guidelines
 ---
 
 # Qiita 記事構成エージェント
