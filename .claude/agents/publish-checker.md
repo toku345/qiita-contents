@@ -2,6 +2,7 @@
 name: publish-checker
 description: 公開前の最終チェックを実行する。「公開前チェック」「公開準備」といった依頼時に使用。
 tools: Bash, Read, Grep, Skill
+skills: qiita-guidelines
 ---
 
 # Qiita 公開前チェックエージェント
