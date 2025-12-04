@@ -1,11 +1,11 @@
 ---
 title: 「スライド作って」で本当にスライドができる — Marp × Claude Code 実践ガイド
 tags:
+  - Marp
+  - ClaudeCode
   - Markdown
   - 自動化
   - プレゼンテーション
-  - Marp
-  - ClaudeCode
 private: true
 updated_at: '2025-12-04T12:30:37+09:00'
 id: 11158328ca098957ff27
@@ -42,7 +42,7 @@ Claude Codeと組み合わせることでMarpのコマンド・ルールを覚�
 
 - Claude Codeの基本操作を理解している開発者
 - スライド作成の効率化に関心がある方
-- Agent skills / Subagentsの実践的な活用例を探している方
+- Agent Skills / Subagentsの実践的な活用例を探している方
 
 # Marpとは
 
@@ -87,9 +87,9 @@ $ npx @marp-team/marp-cli slides.md --pdf --output dist/slides.pdf
 Claude CodeのAgent Skillsは、特定ドメインの知識をClaudeに提供する仕組みです。
 `.claude/skills/<name>/skill.md` に配置することで、Claudeはその内容を参照しながら作業できます。
 
-## marp スキルの定義例
+## Agent Skillsの定義例
 
-```markdown
+```markdown:.claude/skills/marp/skill.md
 ---
 name: marp
 description: Marp (Markdown Presentation Ecosystem) を使用したスライド作成の完全ガイド。構文、テーマ、CLI、画像配置、トラブルシューティングをカバー。
@@ -125,9 +125,9 @@ marp-slidesリポジトリでは以下のmarpスキルを定義しています�
 Claude CodeのSubagentsは、特定のタスクに特化したエージェントです。
 `.claude/agents/<name>.md` に配置することで、自然言語でトリガーされ、定義された手順を自動実行できます。
 
-## Subagent: `slide-creator` の定義例
+## Subagent の定義例
 
-```markdown
+```markdown:.claude/agents/slide-creator.md
 ---
 name: slide-creator
 description: 新しいスライドを作成、プレゼンテーションファイルの新規作成、Marpファイルのテンプレート生成
@@ -265,7 +265,7 @@ MarpにはCSSを使ってカスタムテーマを作成する機能もあるた�
 - [Marp CLI](https://github.com/marp-team/marp-cli)
 - [marp-slides リポジトリ](https://github.com/toku345/marp-slides)
 - [Claude Code 公式ドキュメント](https://docs.claude.com/en/docs/claude-code)
-  - [Claude Code Agent skills](https://code.claude.com/docs/ja/skills)
+  - [Claude Code Agent Skills](https://code.claude.com/docs/ja/skills)
   - [Claude Code Subagents](https://code.claude.com/docs/ja/sub-agents)
 - [Claude Code スキル・サブエージェント攻略ガイド](https://zenn.dev/oligin/articles/7691926a83936a)
   - めちゃめちゃ参考にさせていただきました。
