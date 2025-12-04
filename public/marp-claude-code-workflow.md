@@ -22,7 +22,7 @@ ignorePublish: false
 - **デザイン調整に時間を取られる**: コンテンツよりも見た目の調整に時間を取られる
 - **差分管理が難しい**: 前のバージョンとの比較が困難
 
-これらの課題を解決するツールとしてmarkdown形式のテキストファイルでスライドを作成可能な **Marp** があります。
+これらの課題を解決するツールとしてMarkdown形式のテキストファイルでスライドを作成可能な **Marp** があります。
 
 さらに **Claude Code** と組み合わせることで、「自然言語での指示だけでスライド作成が完結する」ワークフローを構築できます。
 
@@ -85,7 +85,7 @@ $ npx @marp-team/marp-cli slides.md --pdf --output dist/slides.pdf
 ## Agent Skills とは
 
 Claude CodeのAgent Skillsは、特定ドメインの知識をClaudeに提供する仕組みです。
-`.claude/skills/<name>/skill.md` に配置することで、Claudeはその内容を参照しながら作業できます。
+`.claude/skills/<name>/skill.md` を用意することで、Claudeはその内容を参照しながら作業できます。
 
 ## Agent Skillsの定義例
 
@@ -123,7 +123,7 @@ marp-slidesリポジトリでは以下のmarpスキルを定義しています�
 # Subagents によるワークフロー自動化
 
 Claude CodeのSubagentsは、特定のタスクに特化したエージェントです。
-`.claude/agents/<name>.md` に配置することで、自然言語でトリガーされ、定義された手順を自動実行できます。
+`.claude/agents/<name>.md` を用意することで、自然言語でトリガーされ、定義された手順を自動実行できます。
 
 ## Subagent の定義例
 
