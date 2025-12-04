@@ -1,15 +1,15 @@
 ---
 title: Marp × Claude Code で自然言語だけでスライドを作成するワークフロー
 tags:
-  - Marp
   - Markdown
-  - ClaudeCode
-  - プレゼンテーション
   - 自動化
+  - プレゼンテーション
+  - Marp
+  - ClaudeCode
 private: true
-updated_at: ''
-id: null
-organization_url_name:
+updated_at: '2025-12-04T12:30:37+09:00'
+id: 11158328ca098957ff27
+organization_url_name: null
 slide: false
 ignorePublish: false
 ---
@@ -17,7 +17,7 @@ ignorePublish: false
 
 プレゼン資料を作成する際、以下のような課題に直面することが多いのではないでしょうか。
 
-- **PowerPointを開くのが億劫**: terminalやエディタから離れる必要がある
+- **PowerPointを開くのが億劫**: ターミナルやエディタから離れる必要がある
 - **操作方法を覚えるのが大変**: 多機能ゆえに使いこなせない
 - **デザイン調整に時間を取られる**: コンテンツよりも見た目の調整に時間を取られる
 - **差分管理が難しい**: 前のバージョンとの比較が困難
@@ -80,11 +80,11 @@ paginate: true
 $ npx @marp-team/marp-cli slides.md --pdf --output dist/slides.pdf
 ```
 
-# Claude Code Agent skills の導入
+# Claude Code Agent Skills の導入
 
-## Agent skills とは
+## Agent Skills とは
 
-Claude CodeのAgent skillsは、特定ドメインの知識をClaudeに提供する仕組みです。
+Claude CodeのAgent Skillsは、特定ドメインの知識をClaudeに提供する仕組みです。
 `.claude/skills/<name>/skill.md` に配置することで、Claudeはその内容を参照しながら作業できます。
 
 ## marp スキルの定義例
@@ -153,7 +153,7 @@ model: sonnet
 ```
 
 「Claude Codeの活用事例についてスライドを作成して」と入力するだけで、このフローが自動実行されます。
-subagentでskillを使いたい場合はフロントマターに `skills: marp` のように記載する必要があるので注意してください。
+SubagentでSkillを使いたい場合はフロントマターに `skills: marp` のように記載する必要があるので注意してください。
 
 ## 3つのSubagentsの役割
 
@@ -239,7 +239,7 @@ slide-builderが起動し、`dist/` 配下にPDFが生成されます。
 
 | 課題 | Marp × Claude Code での解決 |
 |------|---------------------------|
-| PowerPointを開くのが億劫 | terminalから離れずテキストで完結 |
+| PowerPointを開くのが億劫 | ターミナルから離れずテキストで完結 |
 | 操作方法を覚えるのが大変 | 自然言語で指示するだけ |
 | デザイン調整に時間を取られる | Marpが自動で整形 |
 | 差分管理が難しい | Git/GitHubで差分管理（[PR例](https://github.com/toku345/marp-slides/pull/25/files)） |
