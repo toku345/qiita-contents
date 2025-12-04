@@ -1,11 +1,11 @@
 ---
-title: Marp × Claude Code で実現する「自然言語で完結する」スライド作成ワークフロー
+title: Marp × Claude Code で自然言語だけでスライドを作成するワークフロー
 tags:
   - Marp
   - Markdown
   - ClaudeCode
   - プレゼンテーション
-  - Bun
+  - 自動化
 private: true
 updated_at: ''
 id: null
@@ -42,7 +42,7 @@ Claude Codeと組み合わせることでMarpのコマンド・ルールを覚�
 
 - Claude Codeの基本操作を理解している開発者
 - スライド作成の効率化に関心がある方
-- Skills / Subagentsの実践的な活用例を探している方
+- Agent skills / Subagentsの実践的な活用例を探している方
 
 # Marpとは
 
@@ -73,6 +73,8 @@ paginate: true
 - コードブロックも対応
 ```
 
+以下のようなコマンドでHTMLやPDF、PPTXとしてスライドを出力できます。
+
 ```console
 # Marp CLIでのPDF出力例
 $ npx @marp-team/marp-cli slides.md --pdf --output dist/slides.pdf
@@ -87,23 +89,25 @@ Claude CodeのAgent skillsは、特定ドメインの知識をClaudeに提供す
 
 ## marp スキルの定義例
 
-```markdown:.claude/skills/marp/skill.md（抜粋）
-# Marp Skill
+```markdown
+---
+name: marp
+description: Marp (Markdown Presentation Ecosystem) を使用したスライド作成の完全ガイド。構文、テーマ、CLI、画像配置、トラブルシューティングをカバー。
+---
 
-## スライド区切り
-`---` でスライドを分割
+# Marp スライド作成スキル
 
-## ディレクティブ
-- `marp: true` - Marp有効化（必須）
-- `theme: default` - テーマ指定（default / gaia / uncover）
-- `paginate: true` - ページ番号表示
+このスキルは、Marp (Markdown Presentation Ecosystem) を使用したプレゼンテーションスライドの作成、編集、出力の全工程をサポートします。
 
-## 1スライドあたりの推奨量
-- 箇条書き: 5〜7項目以内
-- コードブロック: 15行以内
+## Marp とは
 
-## よくある問題
-- 画像が表示されない → `./images/filename.png` と相対パスで指定
+Marp は、マークダウン形式でプレゼンテーションスライドを作成できるオープンソースのツールセットです。
+
+### 主要コンポーネント
+
+- **Marp Core**: マークダウンをスライドHTMLに変換するレンダリングエンジン
+- **Marp CLI**: コマンドラインからスライドをビルド・エクスポートするツール
+- **Marp for VS Code**: VS Code でライブプレビューしながら編集できる拡張機能
 ```
 
 ## marp スキルの役割
@@ -112,7 +116,7 @@ marp-slidesリポジトリでは以下のmarpスキルを定義しています�
 
 | スキル | 役割 |
 |-------------|------|
-| [marp](https://github.com/toku345/marp-slides/blob/1df21c565704d95d4957bbff8a46f3c1f1576665/.claude/skills/marp/skill.md) | Marp構文やベストプラクティスの情報を提供 |
+| [marp](https://github.com/toku345/marp-slides/blob/main/.claude/skills/marp/skill.md) | Marp構文やベストプラクティスの情報を提供 |
 
 ここにMarpの基本ルールやベストプラクティスをまとめ、その情報を提供することで、Claudeは正しいMarp構文を生成したり、適切なコンテンツ量のスライドを作成することが可能になります。
 
@@ -123,23 +127,33 @@ Claude CodeのSubagentsは、特定のタスクに特化したエージェント
 
 ## Subagent: `slide-creator` の定義例
 
-```markdown:.claude/agents/slide-creator.md（抜粋）
-# slide-creator
+```markdown
+---
+name: slide-creator
+description: 新しいスライドを作成、プレゼンテーションファイルの新規作成、Marpファイルのテンプレート生成
+tools: Read, Write, Glob, Bash
+skills: marp
+model: sonnet
+---
 
-新規Marpスライドを作成するSubagent。
+# slide-creator エージェント
 
-## 起動条件
-- 「新しいスライドを作成」
-- 「〇〇についてプレゼンを作成」
+新規 Marp スライドファイルを作成するエージェント。
 
-## 実行フロー
-1. スライドタイトルをユーザーに確認
-2. テーマを選択（default / gaia / uncover）
-3. テンプレートを `slides/` に生成
-4. プレビューURLを案内
+## 前提知識
+
+詳細な Marp の構文・設定については、`marp` スキルを参照すること。
+特に以下のセクションが重要:
+- 基本的なマークダウン記法
+- Front Matter 設定
+- ディレクティブ
+- 組み込みテーマ
+- 画像の配置
+- プロジェクト推奨構造
 ```
 
 「Claude Codeの活用事例についてスライドを作成して」と入力するだけで、このフローが自動実行されます。
+subagentでskillを使いたい場合はフロントマターに `skills: marp` のように記載する必要があるので注意してください。
 
 ## 3つのSubagentsの役割
 
@@ -147,11 +161,20 @@ marp-slidesリポジトリでは以下の3つのSubagentsを定義していま�
 
 | Subagent | 起動例 | 役割 |
 |----------|--------|------|
-| [slide-creator](https://github.com/toku345/marp-slides/blob/1df21c565704d95d4957bbff8a46f3c1f1576665/.claude/agents/slide-creator.md) | 「スライドを作成して」 | 新規スライドをテンプレートから生成 |
-| [slide-reviewer](https://github.com/toku345/marp-slides/blob/1df21c565704d95d4957bbff8a46f3c1f1576665/.claude/agents/slide-reviewer.md) | 「レビューして」 | 構文・コンテンツ量をチェック |
-| [slide-builder](https://github.com/toku345/marp-slides/blob/1df21c565704d95d4957bbff8a46f3c1f1576665/.claude/agents/slide-builder.md) | 「PDFに出力して」 | HTML / PDF / PPTXにビルド |
+| [slide-creator](https://github.com/toku345/marp-slides/blob/main/.claude/agents/slide-creator.md) | 「スライドを作成して」 | 新規スライドをテンプレートから生成 |
+| [slide-reviewer](https://github.com/toku345/marp-slides/blob/main/.claude/agents/slide-reviewer.md) | 「レビューして」 | 構文・コンテンツ量をチェック |
+| [slide-builder](https://github.com/toku345/marp-slides/blob/main/.claude/agents/slide-builder.md) | 「PDFに出力して」 | HTML / PDF / PPTXにビルド |
 
 これらのSubagentsを組み合わせることで、スライド作成からレビュー、ビルドまでの一連のワークフローを自然言語で完結させることができます。
+
+# 動作確認環境
+
+本記事の内容は以下の環境で動作確認しています。
+
+- Marp CLI: v4.2.3
+- Claude Code: v2.0.57
+- Bun: v1.3.3
+- OS: macOS 26.1
 
 # 実践例
 
@@ -160,14 +183,14 @@ marp-slidesリポジトリでは以下の3つのSubagentsを定義していま�
 ## Step 1: リポジトリを準備
 
 ```bash
-git clone https://github.com/toku345/marp-slides.git
-cd marp-slides && bun install
+$ git clone https://github.com/toku345/marp-slides.git
+$ cd marp-slides && bun install
 ```
 
 ## Step 2: Claude Codeを起動
 
 ```bash
-claude
+$ claude
 ```
 
 ## Step 3: スライドを作成
@@ -175,7 +198,7 @@ claude
 以下のように入力してみてください。
 
 ```plaintext
-6歳男児へのおすすめクリスマスプレゼント2つを紹介するスライドを作成してください。
+6歳男児へのおすすめクリスマスプレゼント2つを提案する賑やかなスライドを作成して
 ```
 
 slide-creatorが起動し、対話形式でテーマ選択 → テンプレート生成が行われます。
@@ -206,40 +229,45 @@ slide-builderが起動し、`dist/` 配下にPDFが生成されます。
 
 ---
 
+## 実際の操作デモ
+
 一連の流れは以下の動画でも確認できます。
-<script src="https://asciinema.org/a/Wog3BBhxq1AxaPr0XnGQqO53X.js" id="asciicast-Wog3BBhxq1AxaPr0XnGQqO53X" async="true"></script>
 
-出来上がったスライド: [christmas-gifts](https://toku345.github.io/marp-slides/christmas-gifts.html)
+<script src="https://asciinema.org/a/zDTiRAbhljkYMix2hBaYdghHo.js" id="asciicast-zDTiRAbhljkYMix2hBaYdghHo" async="true"></script>
 
-# まとめ
+出来上がったスライド: [christmas-gifts](https://toku345.github.io/marp-slides/christmas-presents-for-6yo-boy.html)
 
-難しく覚えづらいコマンドを打つことなく、すべて自然言語での指示でスライド作成を完結させることができました。
-
-MarpにはCSSを使ってカスタムテーマを作成する機能もあるため、さらに高度なデザイン調整も可能なので、もっと凝ったスライドも作成できます。
-
-これを機に、ぜひMarp × Claude Codeの組み合わせを試してみてください。
-
-## 冒頭の課題はどう解決されたか
+# 冒頭の課題はどう解決されたか
 
 | 課題 | Marp × Claude Code での解決 |
 |------|---------------------------|
 | PowerPointを開くのが億劫 | terminalから離れずテキストで完結 |
 | 操作方法を覚えるのが大変 | 自然言語で指示するだけ |
 | デザイン調整に時間を取られる | Marpが自動で整形 |
-| 差分管理が難しい | Git/GitHubで差分管理（[PR例](https://github.com/toku345/marp-slides/pull/16/files)） |
+| 差分管理が難しい | Git/GitHubで差分管理（[PR例](https://github.com/toku345/marp-slides/pull/25/files)） |
 
-## Agent Skills / Subagents 活用のポイント
+# Agent Skills / Subagents 活用のポイント
 
 | 機能 | 役割 |
 |------|------|
 | **Agent Skills** | ドメイン知識（Marp構文など）を提供し、正確な出力を生成 |
 | **Subagents** | 専門タスク（作成・レビュー・ビルド）を自然言語でトリガー |
 
+# まとめ
+
+いろいろあって覚えづらいコマンドを打つことなく、すべて自然言語での指示でスライド作成を完結させることができました。
+
+MarpにはCSSを使ってカスタムテーマを作成する機能もあるため、さらに高度なデザイン調整も可能なので、もっと凝ったスライドも作成できます。
+
+これを機に、ぜひMarp × Claude Codeの組み合わせを試してみてください。
+
 # 参考資料
 
 - [Marp 公式サイト](https://marp.app/)
 - [Marp CLI](https://github.com/marp-team/marp-cli)
 - [marp-slides リポジトリ](https://github.com/toku345/marp-slides)
-- [Claude Code 公式ドキュメント](https://docs.anthropic.com/en/docs/claude-code)
+- [Claude Code 公式ドキュメント](https://docs.claude.com/en/docs/claude-code)
   - [Claude Code Agent skills](https://code.claude.com/docs/ja/skills)
   - [Claude Code Subagents](https://code.claude.com/docs/ja/sub-agents)
+- [Claude Code スキル・サブエージェント攻略ガイド](https://zenn.dev/oligin/articles/7691926a83936a)
+  - めちゃめちゃ参考にさせていただきました。
