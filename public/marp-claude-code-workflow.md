@@ -1,5 +1,5 @@
 ---
-title: Marp × Claude Code で自然言語だけでスライドを作成するワークフロー
+title: 「スライド作って」で本当にスライドができる — Marp × Claude Code 実践ガイド
 tags:
   - Markdown
   - 自動化
