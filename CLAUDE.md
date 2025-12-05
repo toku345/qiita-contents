@@ -99,6 +99,7 @@ Qiita記事向けにカスタマイズ済み（行長制限無効、HTML要素�
 | スキル | 説明 |
 |--------|------|
 | `qiita-guidelines` | 記事作成時にQiitaコミュニティガイドラインと品質要件を参照 |
+| `qiita-operations` | Qiita CLI操作とワークフローの共通知識（コマンド、公開状態変更フロー等） |
 
 記事執筆・レビュー・公開準備時に自動適用される。
 
@@ -111,14 +112,37 @@ Qiita記事向けにカスタマイズ済み（行長制限無効、HTML要素�
 | `article-reviewer` | 記事品質レビュー | `/qiita-review <file>` |
 | `article-composer` | 記事構成支援 | `/qiita-compose <theme>` |
 | `publish-checker` | 公開前チェック | `/qiita-preflight <file>` |
+| `publish-state-manager` | 公開状態変更 | `/qiita-toggle-private <file>` |
 
-### 起動条件
+## Natural Language Routing
 
-自然言語での依頼時も適切なサブエージェントを使用すること：
+自然言語での依頼に対し、以下のルーティングルールに従う。
 
-- 「記事をレビューして」「品質チェック」→ `article-reviewer` を使用
-- 「構成を考えて」「アウトラインを作成」→ `article-composer` を使用
-- 「公開前チェック」「公開準備」→ `publish-checker` を使用
+### サブエージェントを使用するケース
+
+| トリガーフレーズ | サブエージェント | 備考 |
+|------------------|------------------|------|
+| 「レビューして」「品質チェック」「校正して」「lintかけて」「日本語チェック」 | `article-reviewer` | lint結果の解釈と改善提案を含む |
+| 「構成を考えて」「アウトラインを作成」「記事の骨組み」 | `article-composer` | |
+| 「公開前チェック」「公開準備」「プレフライト」 | `publish-checker` | |
+| 「公開して」「非公開にして」「限定共有に」「private変更」 | `publish-state-manager` | **必ずユーザー確認** |
+
+### メインエージェントが直接処理するケース
+
+| トリガーフレーズ | 処理内容 | 安全要件 |
+|------------------|----------|----------|
+| 「新しい記事を作成」「記事を書き始めたい」 | `bunx qiita new` + `private: true`設定 | **必ず`private: true`** |
+| 「プレビューを見たい」「確認したい」 | `bunx qiita preview` | なし |
+| 「lintだけ実行」「エラーだけ確認」 | `bun run lint:text` | なし（結果報告のみ） |
+
+### 曖昧なリクエストの処理
+
+- 「記事をチェックして」→ 文脈により`article-reviewer`または`publish-checker`を選択
+  - 「公開前」「最終確認」が含まれる → `publish-checker`
+  - それ以外 → `article-reviewer`
+- 「記事を作りたい」→ 構成案が必要か確認
+  - 構成案が必要 → `article-composer`
+  - すぐに書き始めたい → `bunx qiita new`直接実行
 
 ## Key Constraints
 

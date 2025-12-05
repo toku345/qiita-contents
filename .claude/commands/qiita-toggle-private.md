@@ -1,6 +1,7 @@
 ---
 description: 指定した記事の公開/限定共有状態を切り替えます（確認必須）
 allowed-tools: Glob, Read, Edit, AskUserQuestion
+skills: qiita-operations
 ---
 
 指定した Qiita 記事の公開状態を切り替えます。

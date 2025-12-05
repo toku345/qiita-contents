@@ -86,7 +86,10 @@ mainブランチへのpushでGitHub Actionsにより自動公開されます。
 
 ### 記事作成ワークフロー（Claude Code）
 
-command、subagent、skillを組み合わせた記事作成〜公開フロー：
+command、subagent、skillを組み合わせた記事作成〜公開フロー。
+コマンドでも自然言語でも同じワークフローを実行できます。
+
+#### コマンド版
 
 ```
 企画・構成
@@ -112,6 +115,35 @@ command、subagent、skillを組み合わせた記事作成〜公開フロー：
 ↓
 公開設定変更
 │  /qiita-toggle-private <file>（確認必須）
+↓
+公開
+   mainブランチへpush → GitHub Actions
+```
+
+#### 自然言語版
+
+```
+企画・構成
+│  「○○について記事の構成を考えて」 → article-composer
+↓
+新規作成
+│  「○○という名前で記事を作成して」（自動で private: true）
+↓
+執筆
+│  qiita-guidelines skill 参照
+↓
+プレビュー
+│  「プレビューを見せて」 → http://localhost:8888
+↓
+校正・レビュー
+│  「この記事を校正して」 → article-reviewer
+│  「レビューお願い」「lintかけて」でも可
+↓
+公開前チェック
+│  「公開前チェックして」 → publish-checker
+↓
+公開設定変更
+│  「この記事を公開して」 → publish-state-manager（確認必須）
 ↓
 公開
    mainブランチへpush → GitHub Actions
