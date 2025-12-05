@@ -49,6 +49,7 @@ jobs:
 
       - name: Create Pull Request for metadata sync
         if: steps.changes.outputs.has_changes == 'true'
+        id: cpr
         uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412 # v7.0.9
         with:
           commit-message: "chore: update article metadata from Qiita"
@@ -62,3 +63,12 @@ jobs:
           branch: chore/qiita-metadata-sync
           delete-branch: true
           labels: automated
+
+      - name: Check PR creation
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          if [ -z "${{ steps.cpr.outputs.pull-request-number }}" ]; then
+            echo "::error::PR creation failed"
+            exit 1
+          fi
+          echo "Created PR #${{ steps.cpr.outputs.pull-request-number }}: ${{ steps.cpr.outputs.pull-request-url }}"
