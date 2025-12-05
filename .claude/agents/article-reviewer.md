@@ -1,6 +1,6 @@
 ---
 name: article-reviewer
-description: Qiita記事の品質をレビューし、改善提案を行う。「記事をレビューして」「品質チェック」といった依頼時に使用。
+description: Qiita記事の品質をレビューし、改善提案を行う。「記事をレビューして」「品質チェック」「校正して」「lint」「日本語チェック」といった依頼時に使用。
 tools: Bash, Grep, Read, Skill
 skills: qiita-guidelines
 ---
