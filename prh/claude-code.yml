@@ -41,10 +41,10 @@ rules:
       - from: Textlint
         to: textlint
 
-  # Marp - M大文字
+  # Marp - M大文字（ハイフン、コロン、「スキル」後続は除外）
   - expected: Marp
     patterns:
-      - /(?<![a-zA-Z])marp(?![a-zA-Z])/
+      - /(?<![a-zA-Z])marp(?![-:a-zA-Z]|\s?スキル)/
     specs:
       - from: marp
         to: Marp
