@@ -9,6 +9,10 @@ rules:
     specs:
       - from: ClaudeCode
         to: Claude Code
+      - from: claude code
+        to: Claude Code
+      - from: claudecode
+        to: Claude Code
 
   # Agent Skills - 複数形、両方大文字
   - expected: Agent Skills
@@ -18,6 +22,10 @@ rules:
       - agent Skills
     specs:
       - from: agent skills
+        to: Agent Skills
+      - from: Agent skills
+        to: Agent Skills
+      - from: agent Skills
         to: Agent Skills
 
   # Subagents - S大文字、複数形
@@ -39,6 +47,10 @@ rules:
       - TEXTLINT
     specs:
       - from: Textlint
+        to: textlint
+      - from: TextLint
+        to: textlint
+      - from: TEXTLINT
         to: textlint
 
   # Marp - M大文字（ハイフン、コロン、「スキル」後続は除外）
