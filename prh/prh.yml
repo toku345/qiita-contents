@@ -1,0 +1,5 @@
+version: 1
+imports:
+  - tech-terms.yml
+  - katakana.yml
+  - claude-code.yml
