@@ -1,0 +1,77 @@
+version: 1
+rules:
+  # Markdown - 大文字M
+  - expected: Markdown
+    patterns:
+      - markdown
+    specs:
+      - from: markdownファイル
+        to: Markdownファイル
+
+  # JavaScript - キャメルケース
+  - expected: JavaScript
+    patterns:
+      - /(?<![a-zA-Z])javascript(?![a-zA-Z])/i
+    specs:
+      - from: javascript
+        to: JavaScript
+      - from: Javascript
+        to: JavaScript
+
+  # TypeScript - キャメルケース
+  - expected: TypeScript
+    patterns:
+      - /(?<![a-zA-Z])typescript(?![a-zA-Z])/i
+    specs:
+      - from: typescript
+        to: TypeScript
+      - from: Typescript
+        to: TypeScript
+
+  # GitHub - 大文字H
+  - expected: GitHub
+    patterns:
+      - /(?<![a-zA-Z])github(?![a-zA-Z])/i
+    specs:
+      - from: github
+        to: GitHub
+      - from: Github
+        to: GitHub
+
+  # API - 全大文字
+  - expected: API
+    patterns:
+      - /(?<![a-zA-Z])api(?![a-zA-Z])/
+    specs:
+      - from: api
+        to: API
+
+  # CLI - 全大文字
+  - expected: CLI
+    patterns:
+      - /(?<![a-zA-Z])cli(?![a-zA-Z])/
+    specs:
+      - from: cli
+        to: CLI
+
+  # macOS - 公式表記
+  - expected: macOS
+    patterns:
+      - MacOS
+      - MACOS
+    specs:
+      - from: MacOS
+        to: macOS
+      - from: MACOS
+        to: macOS
+
+  # VS Code - スペースあり
+  - expected: VS Code
+    patterns:
+      - VSCode
+      - vscode
+    specs:
+      - from: VSCode
+        to: VS Code
+      - from: vscode
+        to: VS Code

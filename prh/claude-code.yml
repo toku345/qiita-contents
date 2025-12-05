@@ -1,0 +1,62 @@
+version: 1
+rules:
+  # Claude Code - スペースあり、両方大文字
+  - expected: Claude Code
+    patterns:
+      - ClaudeCode
+      - claude code
+      - claudecode
+    specs:
+      - from: ClaudeCode
+        to: Claude Code
+      - from: claude code
+        to: Claude Code
+      - from: claudecode
+        to: Claude Code
+
+  # Agent Skills - 複数形、両方大文字
+  - expected: Agent Skills
+    patterns:
+      - agent skills
+      - Agent skills
+      - agent Skills
+    specs:
+      - from: agent skills
+        to: Agent Skills
+      - from: Agent skills
+        to: Agent Skills
+      - from: agent Skills
+        to: Agent Skills
+
+  # Subagents - S大文字、複数形
+  - expected: Subagents
+    patterns:
+      - subagents
+      - SubAgents
+    specs:
+      - from: subagents
+        to: Subagents
+      - from: SubAgents
+        to: Subagents
+
+  # textlint - 全小文字
+  - expected: textlint
+    patterns:
+      - Textlint
+      - TextLint
+      - TEXTLINT
+    specs:
+      - from: Textlint
+        to: textlint
+      - from: TextLint
+        to: textlint
+      - from: TEXTLINT
+        to: textlint
+
+  # Marp - M大文字（ハイフン、コロン、「スキル」後続は除外）
+  - expected: Marp
+    patterns:
+      - /(?<![a-zA-Z])marp(?![-:a-zA-Z]|\s?スキル)/
+    specs:
+      - from: marp
+        to: Marp

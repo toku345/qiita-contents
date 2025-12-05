@@ -1,0 +1,49 @@
+version: 1
+rules:
+  # サーバー - 長音あり
+  - expected: サーバー
+    patterns:
+      - /サーバ(?!ー)/
+    specs:
+      - from: サーバ設定
+        to: サーバー設定
+
+  # ユーザー - 長音あり
+  - expected: ユーザー
+    patterns:
+      - /ユーザ(?!ー)/
+    specs:
+      - from: ユーザ名
+        to: ユーザー名
+
+  # コンピューター - 長音あり
+  - expected: コンピューター
+    patterns:
+      - /コンピュータ(?!ー)/
+    specs:
+      - from: コンピュータ
+        to: コンピューター
+
+  # プログラマー - 長音あり
+  - expected: プログラマー
+    patterns:
+      - /プログラマ(?!ー)/
+    specs:
+      - from: プログラマ
+        to: プログラマー
+
+  # フォルダー - 長音あり
+  - expected: フォルダー
+    patterns:
+      - /フォルダ(?!ー)/
+    specs:
+      - from: フォルダ
+        to: フォルダー
+
+  # パラメーター - 長音あり
+  - expected: パラメーター
+    patterns:
+      - /パラメータ(?!ー)/
+    specs:
+      - from: パラメータ
+        to: パラメーター
