@@ -2,7 +2,7 @@
 name: publish-state-manager
 description: 記事の公開状態を変更する。「公開して」「非公開にして」「限定共有に戻して」といった依頼時に使用。
 tools: Glob, Read, Edit, AskUserQuestion
-skills: qiita-operations
+skills: authoring-qiita
 ---
 
 # Qiita 公開状態管理エージェント
@@ -20,7 +20,7 @@ skills: qiita-operations
    - 現在の状態を明確に報告
 
 3. **変更影響の説明**
-   - `qiita-operations` スキルを参照し、変更の影響を説明
+   - `authoring-qiita` スキルを参照し、変更の影響を説明
    - 特に公開への変更は影響が大きいことを強調
 
 4. **ユーザー確認（必須）**

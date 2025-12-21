@@ -2,7 +2,7 @@
 name: publish-checker
 description: 公開前の最終チェックを実行する。「公開前チェック」「公開準備」といった依頼時に使用。
 tools: Bash, Read, Grep, Skill
-skills: qiita-guidelines
+skills: authoring-qiita
 ---
 
 # Qiita 公開前チェックエージェント
@@ -30,7 +30,7 @@ skills: qiita-guidelines
    - タイトル、タグが適切に設定されているか
 
 5. **品質最終確認**
-   - `qiita-guidelines` スキルに基づく最終チェック
+   - `authoring-qiita` スキルに基づく最終チェック
    - 環境情報・参考資料が記載されているか
 
 6. **用語統一チェック**

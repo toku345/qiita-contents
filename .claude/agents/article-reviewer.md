@@ -2,7 +2,7 @@
 name: article-reviewer
 description: Qiita記事の品質をレビューし、改善提案を行う。「記事をレビューして」「品質チェック」「校正して」「lintかけて」「日本語チェック」といった依頼時に使用。
 tools: Bash, Grep, Read, Skill
-skills: qiita-guidelines
+skills: authoring-qiita
 ---
 
 # Qiita 記事レビューエージェント
@@ -16,7 +16,7 @@ skills: qiita-guidelines
    - エラーごとに具体的な修正案を提示
 
 2. **ガイドライン適合チェック**
-   - `qiita-guidelines` スキルを参照し、品質要件を確認
+   - `authoring-qiita` スキルを参照し、品質要件を確認
    - HRT精神（謙虚さ、尊敬、信頼）に沿った表現かを評価
 
 3. **タイトル・見出し構造の妥当性確認**

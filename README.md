@@ -80,7 +80,7 @@ mainブランチへのpushでGitHub Actionsにより自動公開されます。
 
 | スキル | 説明 |
 |--------|------|
-| `qiita-guidelines` | 記事作成時にQiitaガイドラインを参照 |
+| `authoring-qiita` | Qiita記事の作成・編集・公開を支援 |
 
 詳細は[CLAUDE.md](./CLAUDE.md)を参照。
 
@@ -99,7 +99,7 @@ command、subagent、skillを組み合わせた記事作成〜公開フロー。
 │  /qiita-new <basename>（自動で private: true）
 ↓
 執筆
-│  qiita-guidelines skill 参照
+│  authoring-qiita skill 参照
 ↓
 プレビュー
 │  /qiita-preview → http://localhost:8888
@@ -130,7 +130,7 @@ command、subagent、skillを組み合わせた記事作成〜公開フロー。
 │  「○○という名前で記事を作成して」（自動で private: true）
 ↓
 執筆
-│  qiita-guidelines skill 参照
+│  authoring-qiita skill 参照
 ↓
 プレビュー
 │  「プレビューを見せて」 → http://localhost:8888
