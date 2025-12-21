@@ -1,6 +1,7 @@
 ---
 description: 指定したQiita記事の品質をレビューし、改善提案を行います
 allowed-tools: Bash, Read, Grep, Skill
+skills: authoring-qiita
 ---
 
 Qiita記事の品質レビューを実行します。
