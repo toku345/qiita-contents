@@ -17,7 +17,7 @@ description: |
 bunx qiita new <basename>
 ```
 
-**重要**: 生成後、必ず `private: false` を `private: true` に変更してから執筆開始。
+**重要**: Qiita CLI はデフォルトで `private: false` を生成するため、必ず `private: true` に変更してから執筆開始。
 
 ## 核心ルール
 
